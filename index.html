@@ -1,90 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>TwerkingThings</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Welcome To Rudra Reality</title>
+
+  <!-- External Scripts -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image.prod.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image-aframe.prod.js"></script>
   <script src="gesture-detector.js"></script>
   <script src="gesture-handler.js"></script>
+
+  <!-- Internal CSS -->
+  <style>
+    #splash {
+      width: 100%;
+      height: 100vh;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      animation: ani 1s linear 5s;
+    }
+
+    #reality_logo {
+      animation: fromDown 0.6s linear 3s;
+    }
+
+    @keyframes ani {
+      0% { transform: translate(0); }
+      100% { transform: translate(6000px); }
+    }
+
+    @keyframes fromDown {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
+
 <body>
+  <!-- Splash Screen -->
+  <div id="splash">
+    <img id="reality_logo" src="logo.png" alt="Reality Logo">
+  </div>
+
+  <!-- A-Frame Scene -->
   <a-scene 
-    mindar-image="imageTargetSrc: wall.mind; filterMinCF:0.0001; filterBeta: 1" 
+    mindar-image="imageTargetSrc: card.mind; filterMinCF: 0.0001; filterBeta: 1" 
     color-space="sRGB" 
     renderer="colorManagement: true, physicallyCorrectLights" 
     vr-mode-ui="enabled: false" 
     device-orientation-permission-ui="enabled: false"
     gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/v1/decoders/"
-    maxTrack: 1
+    maxTrack="1"
     gesture-detector
   >
-
+    <!-- Assets -->
     <a-assets>
-      <a-asset-item id="model1" src="ukule.glb"></a-asset-item> <!-- First model asset -->
-      <a-asset-item id="model2" src="particle.glb"></a-asset-item> <!-- Second model asset -->
-      <a-asset-item id="model3" src="zoo_zoo.glb"></a-asset-item> <!-- Second model asset -->
-      <audio id="image-detected-sound" src="song.mp3" preload="auto"></audio> <!-- Add your sound file here -->
+      <a-asset-item id="model1" src="band.glb"></a-asset-item>
+      <a-asset-item id="model2" src="particle.glb"></a-asset-item>
+      <audio id="image-detected-sound" src="song.mp3" preload="auto"></audio>
     </a-assets>
 
+    <!-- Camera -->
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-    <!-- Single Image Target for detection -->
+    <!-- Image Target and 3D Models -->
     <a-entity mindar-image-target="targetIndex: 0" id="target1">
-      <!-- guitar model entity -->
       <a-entity
         id="model1-entity"
         gltf-model="#model1"
-        rotation="0 0 0" 
-        position="0 -0.2 -0.5" 
-        scale="0.005 0.005 0.005" 
+        rotation="0 0 0"
+        position="0 -0.2 -0.5"
+        scale="1 1 1"
         gesture-handler
         animation-mixer
       ></a-entity>
 
-        <!-- zoo zoo model entity -->
-        <a-entity
-        id="model3-entity"
-        gltf-model="#model3"
-        rotation="0 0 0" 
-        position="-0.5 -0.2 -0.5" 
-        scale="0.7 0.7 0.7" 
-        gesture-handler
-        animation-mixer
-      ></a-entity>
-      
-      <!-- particle model entity -->
       <a-entity
         id="model2-entity"
         gltf-model="#model2"
-        rotation="0 180 0" 
-        position="1 -0.2 -0.5" 
-        scale="0.01 0.01 0.01" 
+        rotation="0 180 0"
+        position="1 -0.2 -0.5"
+        scale="0.01 0.01 0.01"
         gesture-handler
         animation-mixer
       ></a-entity>
     </a-entity>
 
-    <!-- Add event listener to play sound when image target is detected -->
+    <!-- JavaScript -->
     <script>
+      // Play sound when image target is detected
       var sound = document.querySelector('#image-detected-sound');
 
-      // Event listener for when the image target is found
       document.querySelector('#target1').addEventListener('targetFound', function () {
-        sound.play(); // Play sound when the image target is detected
+        sound.play();
       });
 
-      // Event listener for when the image target is lost
       document.querySelector('#target1').addEventListener('targetLost', function () {
-        sound.pause(); // Pause the sound when the image target is lost
-        sound.currentTime = 0; // Reset sound to the beginning
+        sound.pause();
+        sound.currentTime = 0;
       });
-    </script>
 
+      // Hide splash screen after 6 seconds
+      setTimeout(() => {
+        document.getElementById("splash").style.display = "none";
+      }, 6000);
+    </script>
   </a-scene>
 </body>
 </html>
