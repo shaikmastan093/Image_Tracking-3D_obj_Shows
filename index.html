@@ -1,78 +1,90 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <!-- this is a commment: you can change the title to anything you want but it is also fine to just leave it
-      -->
-      <title>TwerkingThings</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="apple-mobile-web-app-capable" content="yes">
-      <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image.prod.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image-aframe.prod.js"></script>
-      <script src="gesture-detector.js"></script>
-      <script src="gesture-handler.js"></script>
-    </head>
-    <body>
-      <!-- this is a commment: for "imageTargetSrc", change "template-mindar" to the filename that you saved when generating the .mind file, make sure the .mind is immediately behind the filename
-      -->
-      <a-scene 
-        mindar-image="imageTargetSrc: card.mind; filterMinCF:0.0001; filterBeta: 1" 
-        color-space="sRGB" 
-        renderer="colorManagement: true, physicallyCorrectLights" 
-        vr-mode-ui="enabled: false" 
-        device-orientation-permission-ui="enabled: false"
-        gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/v1/decoders/"
-        maxTrack: 1
-        gesture-detector
-      >
+<head>
+  <title>TwerkingThings</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="gesture-detector.js"></script>
+  <script src="gesture-handler.js"></script>
+</head>
+<body>
+  <a-scene 
+    mindar-image="imageTargetSrc: wall.mind; filterMinCF:0.0001; filterBeta: 1" 
+    color-space="sRGB" 
+    renderer="colorManagement: true, physicallyCorrectLights" 
+    vr-mode-ui="enabled: false" 
+    device-orientation-permission-ui="enabled: false"
+    gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/v1/decoders/"
+    maxTrack: 1
+    gesture-detector
+  >
 
-      <!-- this is a commment: update the "template1" and "template2" under "a-assets" depending on file type and how many things you want to show,
-        delete extra "a-asset-item" if not in use
-      -->
-        <a-assets>
-          <a-asset-item id="template1" src="pikachu.glb"></a-asset-item>
-          <a-asset-item id="template2" src="sitar.glb"></a-asset-item>
-        </a-assets>
-  
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-  
-          
-      <!-- this is a commment: "targetIndex: 0" refers to the first image stored in the .mind file, 
-        update "template1" accordingly
-      -->
-        <a-entity mindar-image-target="targetIndex: 0">
-          <a-entity
-            id="template1-model"
-            gltf-model="#template2"
-            rotation="0 -90 -90" 
-            position="0 0 0" 
-            scale="0.1 0.1 0.1" 
-            gesture-handler
-            animation-mixer
-          >
-          </a-entity>             
-        </a-entity>
-          
-      <!-- this is a commment: "targetIndex: 1" refers to the second image stored in the .mind file, 
-        update "template2" accordingly,
-        delete the entire following chunk of "a-entity" if not in use,
-        or copy the entire following chunk of "a-entity" to track more images by changing "targetIndex" to "2" for the third image stored in the .mind file
-      -->
-        <a-entity mindar-image-target="targetIndex: 1">
-          <a-entity
-            id="template2-model"
-            gltf-model="#template1"
-            rotation="0 0 0" 
-            position="0 0 0" 
-            scale="0.3 0.3 0.3" 
-            gesture-handler
-            animation-mixer
-          >
-          </a-entity>             
-        </a-entity>
-          
-      </a-scene>
-    </body>
-  </html>
+    <a-assets>
+      <a-asset-item id="model1" src="ukule.glb"></a-asset-item> <!-- First model asset -->
+      <a-asset-item id="model2" src="particle.glb"></a-asset-item> <!-- Second model asset -->
+      <a-asset-item id="model3" src="zoo_zoo.glb"></a-asset-item> <!-- Second model asset -->
+      <audio id="image-detected-sound" src="song.mp3" preload="auto"></audio> <!-- Add your sound file here -->
+    </a-assets>
+
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+    <!-- Single Image Target for detection -->
+    <a-entity mindar-image-target="targetIndex: 0" id="target1">
+      <!-- guitar model entity -->
+      <a-entity
+        id="model1-entity"
+        gltf-model="#model1"
+        rotation="0 0 0" 
+        position="0 -0.2 -0.5" 
+        scale="0.005 0.005 0.005" 
+        gesture-handler
+        animation-mixer
+      ></a-entity>
+
+        <!-- zoo zoo model entity -->
+        <a-entity
+        id="model3-entity"
+        gltf-model="#model3"
+        rotation="0 0 0" 
+        position="1.5 -0.2 -0.5" 
+        scale="0.7 0.7 0.7" 
+        gesture-handler
+        animation-mixer
+      ></a-entity>
+      
+      <!-- particle model entity -->
+      <a-entity
+        id="model2-entity"
+        gltf-model="#model2"
+        rotation="0 180 0" 
+        position="1 -0.2 -0.5" 
+        scale="0.01 0.01 0.01" 
+        gesture-handler
+        animation-mixer
+      ></a-entity>
+    </a-entity>
+
+    <!-- Add event listener to play sound when image target is detected -->
+    <script>
+      var sound = document.querySelector('#image-detected-sound');
+
+      // Event listener for when the image target is found
+      document.querySelector('#target1').addEventListener('targetFound', function () {
+        sound.play(); // Play sound when the image target is detected
+      });
+
+      // Event listener for when the image target is lost
+      document.querySelector('#target1').addEventListener('targetLost', function () {
+        sound.pause(); // Pause the sound when the image target is lost
+        sound.currentTime = 0; // Reset sound to the beginning
+      });
+    </script>
+
+  </a-scene>
+</body>
+</html>
