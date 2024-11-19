@@ -46,7 +46,7 @@
 <body>
   <!-- Splash Screen -->
   <div id="splash">
-    <img id="reality_logo" src="logo.png" alt="Reality Logo">
+    <img id="reality_logo" src="./assets/images/logo.png" alt="Reality Logo">
   </div>
 
   <!-- A-Frame Scene -->
@@ -62,7 +62,7 @@
   >
     <!-- Assets -->
     <a-assets>
-      <a-asset-item id="model1" src="band.glb"></a-asset-item>
+      <a-asset-item id="model1" src="music.glb"></a-asset-item>
       <a-asset-item id="model2" src="particle.glb"></a-asset-item>
       <audio id="image-detected-sound" src="song.mp3" preload="auto"></audio>
     </a-assets>
@@ -77,7 +77,7 @@
         gltf-model="#model1"
         rotation="0 0 0"
         position="0 -0.2 -0.5"
-        scale="1 1 1"
+        scale="0.1 0.1 0.1"
         gesture-handler
         animation-mixer
       ></a-entity>
@@ -86,7 +86,7 @@
         id="model2-entity"
         gltf-model="#model2"
         rotation="0 180 0"
-        position="1 -0.2 -0.5"
+        position="0.5 -0.2 -0.5"
         scale="0.01 0.01 0.01"
         gesture-handler
         animation-mixer
